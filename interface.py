@@ -23,7 +23,7 @@ def get_medicalInsurance():
 
         medical = MedicalInsurance(age,gender,bmi,smoker,children,region)
         charges = medical.get_predicted_charges()
-        return jsonify({"Result":f"Medical Insurance predicted charges are {charges}"})
+        return render_template("index.html",charges=charges)
     
     else:
         age = eval(request.args.get("age"))
