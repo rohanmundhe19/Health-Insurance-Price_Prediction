@@ -3,9 +3,10 @@ from mysql.connector import Error, MySQLConnection
 import config
 
 def insert_query(args):
+    conn = MySQLConnection(**config.DB_PARAM)
+    cursor = conn.cursor()
     try:
-        conn = MySQLConnection(**config.DB_PARAM)
-        cursor = conn.cursor()
+        
         
         insert_query = """ INSERT INTO user_data (age,gender,bmi,children,smoker,region,charges)
                             values (%s,%s,%s,%s,%s,%s,%s)"""
