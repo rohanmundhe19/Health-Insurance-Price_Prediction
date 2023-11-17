@@ -8,7 +8,7 @@ def insert_query(args):
     try:
         
         
-        insert_query = """ INSERT INTO user_data (age,gender,bmi,children,smoker,region,charges)
+        insert_query = """ INSERT INTO vctchealth.user_data(age,gender,bmi,children,smoker,region,charges)
                             values (%s,%s,%s,%s,%s,%s,%s)"""
         cursor.execute(insert_query,args)
 
