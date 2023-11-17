@@ -1,41 +1,33 @@
 from  flask import Flask,request,jsonify,render_template
 import config
 from Model.utils import MedicalInsurance
+from query import insert_query
 
 app = Flask(__name__)
 
 @app.route("/")
-
 def get_homeapi():
-
     return render_template("index.html")
 
-@app.route("/predicted_charges",methods = ["POST","GET"])
+@app.route("/predicted_charges",methods = ["POST"])
 def get_medicalInsurance():
-    if request.method == "POST":
-        data = request.form 
-        age = eval(data["age"])
-        gender = data["gender"]
-        bmi = eval(data["bmi"])
-        children = int(data["children"])
-        smoker = data["smoker"]
-        region = data["region"]
 
-        medical = MedicalInsurance(age,gender,bmi,smoker,children,region)
-        charges = medical.get_predicted_charges()
-        return render_template("index.html",charges=charges)
-    
-    else:
-        age = eval(request.args.get("age"))
-        gender = request.args.get("gender")
-        bmi = eval(request.args.get("bmi"))
-        children = int((request.args.get("children")))
-        smoker = request.args.get("smoker")
-        region = request.args.get("region")
-        medical = MedicalInsurance(age,gender,bmi,smoker,children,region)
-        charges1 = medical.get_predicted_charges()
+    data = request.form 
+    age = eval(data["age"])
+    gender = data["gender"]
+    bmi = eval(data["bmi"])
+    children = int(data["children"])
+    smoker = data["smoker"]
+    region = data["region"]
 
-        return render_template("index.html",charges=charges1)
+    medical = MedicalInsurance(age,gender,bmi,smoker,children,region)
+    charges = medical.get_predicted_charges()
+    charges = float(charges)
+    user_data = (age,gender,bmi,children,smoker,region, charges)
+    insert_query(user_data)
+    return render_template("index.html",charges=charges)
+
+
 
 
 if __name__ == "__main__":
